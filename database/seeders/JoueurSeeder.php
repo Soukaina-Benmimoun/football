@@ -12,6 +12,5 @@ class JoueurSeeder extends Seeder
      */
     public function run(): void
     {
-        Joueur::factory()->count(150)->create();
     }
 }

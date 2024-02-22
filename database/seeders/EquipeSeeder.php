@@ -15,6 +15,5 @@ class EquipeSeeder extends Seeder
     public function run()
     {
         // Utilisez la factory pour créer  10 équipes
-        Equipe::factory()->count(50)->create();
     }
 }
