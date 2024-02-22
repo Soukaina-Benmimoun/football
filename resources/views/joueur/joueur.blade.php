@@ -1,7 +1,7 @@
 
     <div class="container">
         <h1>Liste des Joueurs</h1>
-        <table class="table">
+        <table border=1 class="table">
             <thead>
                 <tr>
                     <th>Nom</th>

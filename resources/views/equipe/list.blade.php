@@ -3,7 +3,7 @@
 
     <div class="container">
         <h1>Liste des Équipes</h1>
-        <table class="table">
+        <table  border=1 class="table">
             <thead>
                 <tr >
                     <th>ID</th>
@@ -16,14 +16,16 @@
             </thead>
             <tbody>
                 @foreach ($equipes as $equipe)
-                <tr  onclick= "location.href='{{ route('equipe.edit', ['id' => $equipe->id]) }}'" style="cursor: pointer;">
+                <tr>
                         <td>{{ $equipe->id }}</td>
                         <td>{{ $equipe->nom }}</td>
                         <td>{{ $equipe->entraineur }}</td>
                         <td>{{ $equipe->classement }}</td>
                         <td>{{ $equipe->pays }}</td>
                         <td>{{ $equipe->division }}</td>
+                        <td><a href="{{ route('equipe.edit', ['id' => $equipe->id]) }}"><button>Update</button></a></td>
                         <td>
+
                         <form action="{{ route('equipe.destroy', ['id' => $equipe->id]) }}" method="post"> 
                         @csrf
                         @method('DELETE')
