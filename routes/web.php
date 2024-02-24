@@ -36,8 +36,9 @@ Route::group(['controller'=> EquipeController::class], function(){
 Route::group(['controller'=> JoueurController::class], function(){
     Route::get('/joueur/age', 'joueur30')->name('joueur.age');
     Route::get('/joueur/post', 'joueurButPostOrigin')->name('joueur.post');
-    Route::get('/joueur/top-buteurs-equipe',  'topButeursParEquipe')->name('topButeursParEquipe');
-    Route::get('/joueur/top-buteurs',  'topButeurs')->name('topButeurs');
+    Route::get('/joueur/top-buteurs-equipe',  'topButeursParEquipe')->name('joueur.topButeursParEquipe');
+    Route::get('/joueur/top-buteurs',  'topButeurs')->name('joueur.topButeurs');
+    Route::get('/joueur/joueurParAge',  'joueurParAge')->name('joueur.joueurParAge');
 
 
 });

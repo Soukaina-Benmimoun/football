@@ -30,32 +30,42 @@ class JoueurController extends Controller
 
     }
     //Q13
-    public function topButeursParEquipe()
-    {
-        $joueurs = Joueur::with('equipe')
-        ->select('equipe_id', 'nom','prenom', DB::raw('SUM(gols) as total_buts'))
-        ->groupBy('equipe_id', 'nom','prenom')
-        ->orderBy('total_buts', 'desc')
-        ->get();
 
-    $troisPremiersButeursParEquipe = [];
-    foreach ($joueurs as $joueur) {
-        if (!isset($troisPremiersButeursParEquipe[$joueur->equipe_id])) {
-            $troisPremiersButeursParEquipe[$joueur->equipe_id] = [
-                'equipe' => $joueur->equipe->nom, 
-                'joueurs' => [],
-            ];
-        }
-        if (count($troisPremiersButeursParEquipe[$joueur->equipe_id]['joueurs']) <   3) {
-            $troisPremiersButeursParEquipe[$joueur->equipe_id]['joueurs'][] = $joueur;
-        }
+ public function topButeursParEquipe()
+    {
+        $toptroisButeurEquipe = DB::table('joueurs')
+            ->join('equipes', 'joueurs.equipe_id', '=', 'equipes.id')
+            ->select('equipes.nom as equipe_nom', 'joueurs.nom', 'joueurs.prenom', 'joueurs.gols')
+            ->orderBy('gols', 'desc')
+            ->get()
+            ->groupBy('equipe_nom')
+            ->map(function ($joueurs) {
+                return $joueurs->take(3);
+            });
+
+        return view('joueur.top_buteurs_equipe', compact( 'toptroisButeurEquipe'));
     }
-    return view('joueur.top_buteurs_equipe', ['troisPremiersButeursParEquipe' => $troisPremiersButeursParEquipe]);
- }
 //Q14
 public function topButeurs()
 {
-    
-}
+    $toptrois = DB::table('joueurs')
+    ->select('nom', 'prenom', 'gols')
+    ->orderBy('gols', 'desc')
+    ->take(3)
+    ->get();
+    return view('joueur.top_buteurs', compact( 'toptrois'));
 
+}
+//Q15
+public function joueurParAge()
+{
+    $joueurParAge = DB::table('joueurs')
+        ->join('equipes', 'joueurs.equipe_id', '=', 'equipes.id')
+        ->select('equipes.nom as equipe_nom', 'joueurs.nom', 'joueurs.prenom', 'joueurs.age')
+        ->orderBy('age', 'asc')
+        ->get()
+        ->groupBy('equipe_nom');
+
+    return view('joueur.agejoueur', compact( 'joueurParAge'));
+}
 }

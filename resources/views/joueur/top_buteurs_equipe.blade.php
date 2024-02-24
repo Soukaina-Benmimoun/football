@@ -1,18 +1,9 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Top Buteurs par Équipe</title>
-</head>
-<body>
     <h1>Top Buteurs par Équipe</h1>
-    @foreach ($troisPremiersButeursParEquipe as $equipeId => $data)
-        <h2>Équipe: {{ $data['equipe'] }}</h2>
+    @foreach ($toptroisButeurEquipe as $equipeId => $joueurs)
+        <h2>Équipe: {{ $equipeId }}</h2>
         <ul>
-            @foreach ($data['joueurs'] as $joueur)
-                <li>Nom: {{ $joueur->nom }} {{ $joueur->prenom}} , Buts: {{ $joueur->total_buts }}</li>
+        @foreach ($joueurs as $joueur)
+                <li>Nom: {{ $joueur->nom }}, Prenom: {{ $joueur->prenom }}, Gols: {{ $joueur->gols }}</li>
             @endforeach
         </ul>
     @endforeach
-</body>
-</html>
