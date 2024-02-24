@@ -28,6 +28,9 @@ Route::group(['controller'=> EquipeController::class], function(){
     Route::delete("/equipe/{id}","destroyEquipe")->name("equipe.destroy");
     Route::get('/equipe/listJoueur', 'listJoueur')->name('joueur.list');
     Route::get('/equipe/listEquipeMexico','listEquipeMexico')->name('listEquipeMexico');
+    Route::get('/equipe/but','equipeBut')->name('equipe.but');
+    Route::get('/golsEquipePays', 'golsEquipePays')->name('golsEquipePays');
+    Route::get('/golsEquipeDef', 'golsEquipeDef')->name('golsEquipeDef');
 });
 
 Route::group(['controller'=> JoueurController::class], function(){

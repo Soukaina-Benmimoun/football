@@ -102,5 +102,39 @@ class EquipeController extends Controller
     {
         $equipes =DB::table('equipes')->where('pays','Mexico')->get();
         return view( 'equipe.list', compact('equipes'));
-        }
+    }
+
+    public function equipeBut()
+    {
+//Q10
+    $equipes = DB::table('joueurs')
+        ->join('equipes', 'joueurs.equipe_id', '=', 'equipes.id')
+        ->select('equipes.nom as team_name', DB::raw('SUM(joueurs.gols) as total_goals'))
+        ->groupBy('equipes.nom')
+        ->get();
+
+    
+        return view('equipe.butEquipe', compact('equipes'));
+        
+    }
+//Q11
+    public function golsEquipePays(){
+        $goalsByTeamAndCountry = DB::table('joueurs')
+            ->join('equipes', 'joueurs.equipe_id', '=', 'equipes.id')
+            ->select('equipes.nom as team_name', 'equipes.pays as country', DB::raw('SUM(joueurs.gols) as total_goals'))
+            ->groupBy('equipes.nom', 'equipes.pays')
+            ->get();
+            return view('equipe.golsEquipePays', compact('goalsByTeamAndCountry'));
+    }
+//Q12
+    public function golsEquipeDef(){
+        $golsEquipeDefs = DB::table('joueurs')
+        ->join('equipes', 'joueurs.equipe_id', '=', 'equipes.id')
+        ->where('joueurs.post', 'Défenseur')
+        ->select('equipes.nom as team_name', DB::raw('SUM(joueurs.gols) as total_goals'))
+        ->groupBy('equipes.nom')
+        ->get();
+
+    return view('equipe.golsEquipeDef', compact('golsEquipeDefs'));
+    }
 }

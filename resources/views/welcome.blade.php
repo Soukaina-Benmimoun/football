@@ -31,11 +31,15 @@
                 <a href="{{ route('joueur.post') }}">Liste des Joueurs selon le post et le nbr de buts</a>
 
             </li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
+            <li>
+                <a href="{{ route('equipe.but') }}">nombre de buts marqués par chaque équipe</a>
+            </li>
+            <li>
+                <a href="{{ route('golsEquipePays') }}">nombre de buts marqués par équipe et par pays</a>
+            </li>
+            <li>
+                <a href="{{ route('golsEquipeDef') }}">nombre de buts marqués par équipe et par defenseur</a>
+            </li>
         </ul>
     </nav>
 </body>
