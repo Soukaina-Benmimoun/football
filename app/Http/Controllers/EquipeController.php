@@ -7,87 +7,67 @@ use Illuminate\Http\Request;
 use App\Models\Equipe;
 class EquipeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+   //Q1
     public function listEquipe()
     {
         $equipes =DB::select('SELECT * FROM equipes');
         return view( 'equipe.list', compact('equipes'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function listEquipeZambia()
+    //Q2
+    public function listEquipeFrance()
     {
-        $equipes =DB::select("SELECT * FROM equipes WHERE pays = 'Zambia'")
+        $equipes =DB::select("SELECT * FROM equipes WHERE pays = 'France'")
         ;
         return view ('equipe.list',compact('equipes'));
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+   //Q3
     public function createEquipe()
     {
         return view('equipe.create');
     }
 
-    /**
-     * Display the specified resource.
-     */
+    //Q3
     public function storeEquipe(Request $request)
     {
-        
-        DB::table('equipes')->insert([
-            "nom"=>$request->input("nom"), 
-            "entraineur"=>$request->input("entraineur"),  
-            "classement"=>$request->input("classement"), 
-            "pays"=>$request->input("pays"),
-            "division"=>$request->input("division")
-        ]) ;
-            
+        $nom = $request->input("nom");
+        $entraineur =$request->input("entraineur"); 
+        $classement = $request->input("classement");
+        $division = $request->input("division");
+        DB::statement("INSERT INTO equipes (nom, entraineur, classement, pays, division) VALUES (?, ?, ?, 'Italie', ?)", [$nom, $entraineur, $classement,  $division]);
 
         return to_route('equipe.list');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    //Q4
     public function editEquipe( $id)
     {
         $equipe = DB::table('equipes')->where( 'id' ,'=' ,$id)->first();
         return view('equipe.edit', compact('equipe') );
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    //Q4
     public function updateEquipe(Request $request,  $id)
     {
-        DB::table('equipes')->where('id', $id)
-            ->update(["nom"=>$request->input("nom"), 
-            "entraineur"=>$request->input("entraineur"),  
-            "classement"=>$request->input("classement"), 
-            "pays"=>$request->input("pays"),
-            "division"=>$request->input("division")
-        ]);
-        return to_route('equipe.list');
+    $nom = $request->input("nom");
+    $entraineur =$request->input("entraineur"); 
+    $classement = $request->input("classement");
+    $pays = $request->input("pays");
+    $division = $request->input("division");
+    DB::statement("UPDATE equipes SET  nom = ?, entraineur = ?, classement = ? ,  pays = ? , division= ? where id=?", [$nom, $entraineur, $classement, $pays, $division,$id]);
+    return to_route('equipe.list');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    //Q5
     public function destroyEquipe(string $id)
     {
-        DB::table('equipes')->where('id', $id)
-        ->delete();
+        DB::statement("DELETE FROM equipes WHERE id = ? ", [$id]);
 
         return redirect()->route('equipe.list');
     }
-    
+    //Q6
     public function listJoueur(){
         $equipes = DB::table('equipes')->get();
 
@@ -97,10 +77,10 @@ class EquipeController extends Controller
     
         return view('equipe.listJoueur', compact('equipes'));
     }
-
-    public function listEquipeMexico()
+    //Q7
+    public function listEquipeEspagnole()
     {
-        $equipes =DB::table('equipes')->where('pays','Mexico')->get();
+        $equipes =DB::table('equipes')->where('pays','Espagnole')->get();
         return view( 'equipe.list', compact('equipes'));
     }
 

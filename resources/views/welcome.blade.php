@@ -13,7 +13,7 @@
                 <a href="{{ route('equipe.list') }}">Liste des Équipes</a>
             </li>
             <li>
-                <a href="{{ route('equipez.list') }}">Liste des Équipes de Zambie</a>
+                <a href="{{ route('equipeF.list') }}">Liste des Équipes de France</a>
             </li>
             <li>
                 <a href="{{ route('equipe.create') }}">ajouter une equipe</a>
@@ -22,7 +22,7 @@
                 <a href="{{ route('joueur.list') }}">Liste des Joueurs</a>
             </li>
             <li>
-                <a href="{{ route('listEquipeMexico') }}">Liste des Équipes de Mexico </a>
+                <a href="{{ route('listEquipeEspagnole') }}">Liste des Équipes de Espagnole </a>
             </li>
             <li>
                 <a href="{{ route('joueur.age') }}">Liste des Joueurs ayant plus de 30 ans</a>
@@ -32,8 +32,13 @@
 
             </li>
             <li>
+                <a href="{{ route('topButeursParEquipe')}}">Les top Buteurs dans chaque equipe</a>
+            
                 <a href="{{ route('equipe.but') }}">nombre de buts marqués par chaque équipe</a>
             </li>
+            <a href="{{ route('topButeurs')}}">Les top Buteurs </a>
+
+            
             <li>
                 <a href="{{ route('golsEquipePays') }}">nombre de buts marqués par équipe et par pays</a>
             </li>

@@ -3,72 +3,59 @@
 namespace App\Http\Controllers;
 
 use App\Models\Joueur;
+use App\Models\Equipe;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class JoueurController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+   //Q8
     public function joueur30()
     {
         $joueurs = DB::table('joueurs')->where('age', '>=',  30)->get();
         return view('joueur.joueur',compact( 'joueurs')); 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    //Q9
     public function joueurButPostOrigin()
     {
         $joueurs = DB::table('joueurs')
-    ->where('gols', '>=',  15)
-    ->where('post', 'Milieu')
-    ->where('nationalite', 'Isle of Man')
-    ->get();
-    return view('joueur.joueur',compact( 'joueurs')); 
+            ->where('gols', '>=',  15)
+            ->where('post', 'Milieu')
+            ->where('nationalite', 'Argentine')
+            ->get();
+        return view('joueur.joueur',compact( 'joueurs')); 
 
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    //Q13
+    public function topButeursParEquipe()
     {
-        //
-    }
+        $joueurs = Joueur::with('equipe')
+        ->select('equipe_id', 'nom','prenom', DB::raw('SUM(gols) as total_buts'))
+        ->groupBy('equipe_id', 'nom','prenom')
+        ->orderBy('total_buts', 'desc')
+        ->get();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Joueur $joueur)
-    {
-        //
+    $troisPremiersButeursParEquipe = [];
+    foreach ($joueurs as $joueur) {
+        if (!isset($troisPremiersButeursParEquipe[$joueur->equipe_id])) {
+            $troisPremiersButeursParEquipe[$joueur->equipe_id] = [
+                'equipe' => $joueur->equipe->nom, 
+                'joueurs' => [],
+            ];
+        }
+        if (count($troisPremiersButeursParEquipe[$joueur->equipe_id]['joueurs']) <   3) {
+            $troisPremiersButeursParEquipe[$joueur->equipe_id]['joueurs'][] = $joueur;
+        }
     }
+    return view('joueur.top_buteurs_equipe', ['troisPremiersButeursParEquipe' => $troisPremiersButeursParEquipe]);
+ }
+//Q14
+public function topButeurs()
+{
+    
+}
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Joueur $joueur)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Joueur $joueur)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Joueur $joueur)
-    {
-        //
-    }
 }
